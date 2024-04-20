@@ -61,6 +61,10 @@ class ImportData:
 
         # Merge the adjusted data
         final_df = pd.concat([non_bot_df, bot_df], ignore_index=True)
+
+        # Drop the ID 
+        final_df = final_df.drop('user_id', axis=1)
+
         return final_df
     
     def split_dataset(self, data, proportions = [.7,.15,.15], target='bot'):
@@ -75,6 +79,7 @@ class ImportData:
         Returns:
         A dictionary with keys 'X_train', 'X_test', 'X_val', 'y_train', 'y_test', 'y_val' and their corresponding DataFrame or Series as values.
         """
+
         
         if sum(proportions) != 1:
             raise ValueError("Proportions must sum up to 1.")
