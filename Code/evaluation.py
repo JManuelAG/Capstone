@@ -82,6 +82,7 @@ class Evaluate:
     #     plt.show()
 
     def plot_confusion_matrix(self):
+        plt.figure(figsize=(15,10))
         cm = confusion_matrix(self.true_values, self.predicted_values, labels=[0, 1])
         cm_percentage = cm / np.sum(cm) * 100  # Convert counts to percentages
         sns.heatmap(cm_percentage, annot=True, fmt=".2f", cmap='Blues', xticklabels=['Predicted 0', 'Predicted 1'], yticklabels=['Actual 0', 'Actual 1'])
@@ -94,14 +95,15 @@ class Evaluate:
         for t in ax.texts:
             if "%" not in t.get_text():
                 t.set_text(t.get_text() + " %")
-
+        # Correlation among variables
         plt.show()
 
     def plot_roc_curve(self):
         if self.predicted_probabilities is None:
             raise ValueError("Predicted probabilities are required to plot ROC curve.")
         fpr, tpr, _ = roc_curve(self.true_values, self.predicted_probabilities)
-        plt.figure()
+        # Correlation among variables
+        plt.figure(figsize=(15,10))
         plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % self.auc())
         plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
         plt.xlim([0.0, 1.0])
@@ -110,5 +112,6 @@ class Evaluate:
         plt.ylabel('True Positive Rate')
         plt.title('Receiver Operating Characteristic (ROC) Curve')
         plt.legend(loc="lower right")
+        # Correlation among variables
         plt.show()
 
