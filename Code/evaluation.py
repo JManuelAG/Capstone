@@ -54,9 +54,13 @@ class Evaluate:
     
 
     def get_all_metrics(self):
+        confusion_matrix_rates = self.confusion_matrix()
         metrics = {
             'Accuracy': self.accuracy(),
-            'Confusion Matrix Rates': self.confusion_matrix(),
+            'TN Rate': confusion_matrix_rates['TN Rate'],
+            'FP Rate': confusion_matrix_rates['FP Rate'],
+            'FN Rate': confusion_matrix_rates['FN Rate'],
+            'TP Rate': confusion_matrix_rates['TP Rate'],
             'Precision': self.precision(),
             'Recall': self.recall(),
             'F1 Score': self.f1(),
