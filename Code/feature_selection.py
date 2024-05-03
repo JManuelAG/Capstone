@@ -12,6 +12,19 @@ class FeatureSelection:
         self.values = pd.DataFrame()
         self.list_values = []
 
+    def select_features(self, type_selection= "correlation"):
+        if type_selection == "correlation":
+            values, list_values = self.correlation()
+            return list_values
+        
+        if type_selection == "chi2":
+            values, list_values = self.chi2()
+            return list_values
+        
+        if type_selection == "classifier":
+            values, list_values = self.mutual_classifier()
+            return list_values
+
     def correlation(self):
         # Correlation Analysis 
         values = pd.DataFrame(self.data.corr()["bot"].abs().sort_values(ascending=False)[1:])
