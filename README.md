@@ -59,3 +59,86 @@ This project relies on the following Python libraries:
 - seaborn
 
 Ensure that these libraries are installed in your Python environment to run the code successfully. You can install them via pip using the command `pip install -r requirements.txt`.
+
+## Description
+This repository contains code for a bot detection system designed for analyzing Twitter data. The system includes modules for data preprocessing, feature selection, model testing, and evaluation.
+
+## Important Files and Subdirectories
+
+### 1. `cresci_2015` Directory
+
+- `cresci_2015.csv`: The Cresci 2015 dataset containing Twitter data for bot detection research.
+
+### 2. `Code` Directory
+
+#### a. `clean_cresci_2015.py`
+
+- **Description**: This module provides functionality for cleaning and preprocessing the Cresci 2015 dataset.
+- **Methods**:
+  - `load_data()`: Loads the Cresci 2015 dataset.
+  - `preprocess_data()`: Performs preprocessing steps on the dataset.
+  - `explore_data()`: Provides descriptive statistics and visualizations.
+  - `split_train_test()`: Splits the dataset into training and testing sets.
+
+#### b. `evaluate.py`
+
+- **Description**: This module implements methods for evaluating classification models.
+- **Methods**:
+  - `__init__(true_values, predicted_values, predicted_probabilities=None)`: Initializes evaluation instance.
+  - `accuracy()`, `confusion_matrix()`, `precision()`, `recall()`, `f1()`, `auc()`, `mcc()`: Evaluation metrics.
+  - `get_all_metrics()`: Returns all evaluation metrics.
+  - `plot_confusion_matrix()`, `plot_roc_curve()`: Visualization methods.
+
+#### c. `feature_selection.py`
+
+- **Description**: This module provides feature selection methods such as correlation analysis, chi-square test, and mutual information classifier.
+- **Methods**:
+  - `__init__(data)`: Initializes feature selection instance.
+  - `select_features(type_selection)`: Selects features based on the specified method.
+  - `correlation()`, `chi2()`, `mutual_classifier()`: Feature selection methods.
+  - `pair_plot(num_feat)`, `correlation_map(num_feat)`: Visualization methods.
+
+#### d. `import_data.py`
+
+- **Description**: This module handles importing, sampling, and splitting the dataset.
+- **Methods**:
+  - `read_and_sample_data()`: Reads and samples the dataset.
+  - `split_dataset()`: Splits the dataset into training, testing, and validation sets.
+
+#### e. `models_test.py`
+
+- **Description**: This module facilitates model testing, parameter tuning, and evaluation using grid search.
+- **Methods**:
+  - `load_models()`, `change_model_parameters()`, `save_current_parameters()`: Model handling methods.
+  - `fit_all_models()`, `grid_search()`, `predict_model()`: Model testing and evaluation methods.
+
+#### f. `testing_environment.py`
+
+- **Description**: This module provides an integrated testing environment for evaluating multiple models.
+- **Methods**:
+  - `__init__()`: Initializes testing environment instance.
+  - `save_results()`: Saves evaluation results to a CSV file.
+  - `run_tests()`: Runs tests for specified model configurations.
+
+### 3. `Parameters` Directory
+
+- Contains pre-trained models with their parameters.
+
+### 4. `Outputs` Directory
+
+- Contains output files such as evaluation results.
+
+## Usage Example
+
+1. Instantiate necessary classes and modules.
+2. Use appropriate methods to preprocess data, select features, and test models.
+3. Evaluate model performance and visualize results.
+4. Save evaluation results for further analysis.
+
+## Roadmap
+
+- **Step 1**: Preprocess the dataset using `clean_cresci_2015.py`.
+- **Step 2**: Select features using `feature_selection.py`.
+- **Step 3**: Test and evaluate models using `models_test.py`.
+- **Step 4**: Use `testing_environment.py` to conduct comprehensive testing and analysis.
+
