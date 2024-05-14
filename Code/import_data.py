@@ -10,12 +10,12 @@ class ImportData:
 
     def type_data(self, type_data_merged):
         # Check the type of data 
-        if type_data_merged == 1:
+        if type_data_merged == True:
             return "clean_merged.csv"
         else:
             return "clean_users.csv"
 
-    def read_and_sample_data(self, base_path="../Data/cresci-2015.csv/", type_data_merged = 1, bot_ratio=[.2, .8], bot_fldr_ratio=[1, 1, 1]):
+    def read_and_sample_data(self, base_path="../Data/cresci-2015.csv/", type_data_merged = True, bot_ratio=[.2, .8], bot_fldr_ratio=[1, 1, 1]):
         bot_data_frames = pd.DataFrame()
         total_bot = 0
 
