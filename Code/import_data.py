@@ -2,12 +2,17 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+['genuine_accounts.csv',
+ 'social_spambots_1.csv',
+ 'social_spambots_2.csv',
+ 'social_spambots_3.csv']
+
 class ImportData:
     def __init__(self):
-        self.non_bot_folder = ["E13.csv", 'TFP.csv']
-        self.bot_folder = ['FSF.csv', 'INT.csv', 'TWT.csv']
-
-
+        self.non_bot_folder = [["E13.csv", 'TFP.csv'], ['genuine_accounts.csv']]
+        self.bot_folder = [['FSF.csv', 'INT.csv', 'TWT.csv'],  ['social_spambots_1.csv', 'social_spambots_2.csv', 'social_spambots_3.csv']]
+        self.base_path = ["../Data/cresci-2015.csv/", "../Data/cresci-2017.csv/datasets_full.csv/"]
+        
     def type_data(self, type_data_merged):
         # Check the type of data 
         if type_data_merged == True:
@@ -15,7 +20,15 @@ class ImportData:
         else:
             return "clean_users.csv"
 
-    def read_and_sample_data(self, base_path="../Data/cresci-2015.csv/", type_data_merged = True, bot_ratio=[.2, .8], bot_fldr_ratio=[1, 1, 1]):
+    def read_and_sample_data(self, dataset = "cresci-2015", type_data_merged = True, bot_ratio=[.2, .8], bot_fldr_ratio=[1, 1, 1]):
+        if dataset == "cresci-2015":
+            idx = 0
+        elif dataset == "cresci-2017":
+            idx = 1
+        
+        base_path = self.base_path[idx]
+
+
         bot_data_frames = pd.DataFrame()
         total_bot = 0
 
@@ -23,16 +36,31 @@ class ImportData:
         type_data = self.type_data(type_data_merged)
 
         # Read non-bot data
-        for folder in self.non_bot_folder:
-            # Read path
-            file_path = os.path.join(base_path, folder, "clean", type_data)
+        for folder in self.non_bot_folder[idx]:
+            if idx == 1:
+                # Construct the path to the nested folder, assuming the repeated structure
+                nested_folder_path = os.path.join(base_path, folder, folder)
+                file_path = os.path.join(nested_folder_path, "clean", type_data)
+
+            else:
+                # Read path
+                file_path = os.path.join(base_path, folder, "clean", type_data)
+
             if os.path.exists(file_path):
                 non_bot_data_frames = pd.read_csv(file_path)
                 total_non_bot = len(non_bot_data_frames)
                 
         # Read and sample bot data
-        for idx, folder in enumerate(self.bot_folder):
-            file_path = os.path.join(base_path, folder, "clean", type_data)
+        for idx, folder in enumerate(self.bot_folder[idx]):
+            if idx == 1:
+                # Construct the path to the nested folder, assuming the repeated structure
+                nested_folder_path = os.path.join(base_path, folder, folder)
+                file_path = os.path.join(nested_folder_path, "clean", type_data)
+
+            else:
+                # Read path
+                file_path = os.path.join(base_path, folder, "clean", type_data)
+                
             if os.path.exists(file_path):
                 if bot_fldr_ratio[idx] == 1:
                     df = pd.read_csv(file_path)

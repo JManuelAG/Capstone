@@ -22,7 +22,7 @@ class TestEnvironment:
 
         # Initialize data and model tester
         self.importer = ImportData()
-        self.data = self.importer.read_and_sample_data(type_data_merged=self.MERGED_DATASET, bot_ratio=self.BOT_RATIO, bot_fldr_ratio=self.BOT_FOLDERS)
+        self.data = self.importer.read_and_sample_data(dataset = DATASET, type_data_merged=self.MERGED_DATASET, bot_ratio=self.BOT_RATIO, bot_fldr_ratio=self.BOT_FOLDERS)
         self.selection = FeatureSelection(self.data)
         self.list_features = self.selection.select_features(type_selection=self.TYPE_SELECTION)
         self.splits = self.importer.split_dataset(data=self.data, proportions=[self.TRAIN_RATE, self.TEST_RATE, self.VAL_RATE])
