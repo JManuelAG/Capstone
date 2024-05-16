@@ -5,6 +5,13 @@ from sklearn.metrics import classification_report
 
 class ModelTester:
     def __init__(self, data_dict, feature_importance):
+        """
+        Initialize the ModelTester object.
+        
+        Args:
+        - data_dict (dict): Dictionary containing train, test, and validation datasets.
+        - feature_importance (DataFrame): DataFrame containing feature importances.
+        """
         self.X_train = data_dict['X_train']
         self.X_test = data_dict['X_test']
         self.X_val = data_dict['X_val']

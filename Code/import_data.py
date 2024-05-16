@@ -2,25 +2,48 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-['genuine_accounts.csv',
- 'social_spambots_1.csv',
- 'social_spambots_2.csv',
- 'social_spambots_3.csv']
-
 class ImportData:
     def __init__(self):
+        """
+        Initialize the ImportData object.
+        
+        Attributes:
+            non_bot_folder (list of list): List of folders containing non-bot data.
+            bot_folder (list of list): List of folders containing bot data.
+            base_path (list): Base paths for datasets.
+        """
         self.non_bot_folder = [["E13.csv", 'TFP.csv'], ['genuine_accounts.csv']]
         self.bot_folder = [['FSF.csv', 'INT.csv', 'TWT.csv'],  ['social_spambots_1.csv', 'social_spambots_2.csv', 'social_spambots_3.csv']]
         self.base_path = ["../Data/cresci-2015.csv/", "../Data/cresci-2017.csv/datasets_full.csv/"]
         
     def type_data(self, type_data_merged):
-        # Check the type of data 
+        """
+        Determine the type of data file based on whether it is merged or not.
+
+        Args:
+            type_data_merged (bool): Whether the data is merged or not.
+
+        Returns:
+            str: File name of the data.
+        """
         if type_data_merged == True:
             return "clean_merged.csv"
         else:
             return "clean_users.csv"
 
     def read_and_sample_data(self, dataset = "cresci-2015", type_data_merged = True, bot_ratio=[.2, .8], bot_fldr_ratio=[1, 1, 1]):
+        """
+        Read and sample data from specified dataset.
+
+        Args:
+            dataset (str): Dataset name.
+            type_data_merged (bool): Whether the data is merged or not.
+            bot_ratio (list): Ratio of bot data to sample.
+            bot_fldr_ratio (list): Ratio of bot data within each folder.
+
+        Returns:
+            DataFrame: Sampled data.
+        """
         if dataset == "cresci-2015":
             idx = 0
         elif dataset == "cresci-2017":
@@ -93,6 +116,9 @@ class ImportData:
         # Drop the ID 
         final_df = final_df.drop('user_id', axis=1)
 
+        # Drop any 0 value features
+        final_df = final_df.loc[:, (final_df != 0).any()]
+
         return final_df
     
     def split_dataset(self, data, proportions = [.7,.15,.15], target='bot'):
@@ -108,7 +134,7 @@ class ImportData:
         A dictionary with keys 'X_train', 'X_test', 'X_val', 'y_train', 'y_test', 'y_val' and their corresponding DataFrame or Series as values.
         """
 
-        
+        # Test if proportions equal to 1
         if sum(proportions) != 1:
             raise ValueError("Proportions must sum up to 1.")
         

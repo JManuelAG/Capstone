@@ -7,6 +7,17 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 
 class Evaluate:
     def __init__(self, true_values, predicted_values, predicted_probabilities=None):
+        """
+        Initialize the evaluation object with true values, predicted values, and optionally predicted probabilities.
+
+        Args:
+            true_values (list or array-like): True labels.
+            predicted_values (list or array-like): Predicted labels.
+            predicted_probabilities (list or array-like, optional): Predicted probabilities for positive class.
+
+        Raises:
+            ValueError: If the predicted or actual lists are empty, or if their lengths do not match.
+        """
         if len(true_values) == 0 or len(predicted_values) == 0:
             raise ValueError("Predicted and actual lists cannot be empty.")
         if len(true_values) != len(predicted_values):
@@ -19,9 +30,16 @@ class Evaluate:
         self.predicted_probabilities = np.array(predicted_probabilities) if predicted_probabilities is not None else None
 
     def accuracy(self):
+        """Calculate the accuracy of the predictions."""
         return accuracy_score(self.true_values, self.predicted_values)
 
     def confusion_matrix(self):
+        """
+        Calculate confusion matrix rates.
+
+        Returns:
+            dict: Rates of True Negative (TN), False Positive (FP), False Negative (FN), and True Positive (TP).
+        """
         tn, fp, fn, tp = confusion_matrix(self.true_values, self.predicted_values, labels=[0, 1]).ravel()
 
         # Calculate the total number of instances
@@ -36,24 +54,42 @@ class Evaluate:
         }
 
     def precision(self):
+        """Calculate the precision of the predictions."""
         return precision_score(self.true_values, self.predicted_values)
 
     def recall(self):
+        """Calculate the recall of the predictions."""
         return recall_score(self.true_values, self.predicted_values)
 
     def f1(self):
+        """Calculate the F1 score of the predictions."""
         return f1_score(self.true_values, self.predicted_values)
 
     def auc(self):
+        """
+        Calculate the Area Under the Receiver Operating Characteristic Curve (ROC AUC).
+
+        Returns:
+            float: AUC score.
+
+        Raises:
+            ValueError: If predicted probabilities are not provided.
+        """
         if self.predicted_probabilities is None:
             raise ValueError("Predicted probabilities are required to calculate AUC.")
         return roc_auc_score(self.true_values, self.predicted_probabilities)
     
     def mcc(self):
+        """Calculate the Matthews correlation coefficient (MCC)."""
         return matthews_corrcoef(self.true_values, self.predicted_values)
-    
 
     def get_all_metrics(self):
+        """
+        Get all evaluation metrics.
+
+        Returns:
+            dict: Dictionary containing all evaluation metrics.
+        """
         confusion_matrix_rates = self.confusion_matrix()
         metrics = {
             'Accuracy': self.accuracy(),
@@ -82,6 +118,12 @@ class Evaluate:
     #     plt.show()
 
     def plot_confusion_matrix(self):
+        """
+        Plot the confusion matrix as a heatmap with percentages.
+
+        Returns:
+            None
+        """
         plt.figure(figsize=(15,10))
         cm = confusion_matrix(self.true_values, self.predicted_values, labels=[0, 1])
         cm_percentage = cm / np.sum(cm) * 100  # Convert counts to percentages
@@ -95,14 +137,21 @@ class Evaluate:
         for t in ax.texts:
             if "%" not in t.get_text():
                 t.set_text(t.get_text() + " %")
-        # Correlation among variables
         plt.show()
 
     def plot_roc_curve(self):
+        """
+        Plot the Receiver Operating Characteristic (ROC) curve.
+
+        Returns:
+            None
+
+        Raises:
+            ValueError: If predicted probabilities are not provided.
+        """
         if self.predicted_probabilities is None:
             raise ValueError("Predicted probabilities are required to plot ROC curve.")
         fpr, tpr, _ = roc_curve(self.true_values, self.predicted_probabilities)
-        # Correlation among variables
         plt.figure(figsize=(15,10))
         plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (area = %0.2f)' % self.auc())
         plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
@@ -112,6 +161,4 @@ class Evaluate:
         plt.ylabel('True Positive Rate')
         plt.title('Receiver Operating Characteristic (ROC) Curve')
         plt.legend(loc="lower right")
-        # Correlation among variables
         plt.show()
-
