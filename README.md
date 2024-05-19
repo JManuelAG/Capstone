@@ -1,4 +1,6 @@
 # Capstone
+https://github.com/JManuelAG/Capstone/tree/main
+
 # Twitter Bot Detection 
 
 Welcome to the TwiTwitter Bot Detection! This project provides a comprehensive framework for data import, preprocessing, modelling, and evaluation using Python. It includes various modules for different stages of the machine learning pipeline, such as importing data, cleaning, splitting, modelling, and evaluating machine learning models.
