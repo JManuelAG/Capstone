@@ -4,7 +4,7 @@ https://github.com/JManuelAG/Capstone/tree/main
 
 NOTE: To be able to use this repository with current data, you will need to copy the datasets from project repositoy:  
 Project_Folder\1_Documentation\1.1_DataSet  
-Copy the folder inside the "Capstone" folder and rename "Dataset" 
+Copy the folder inside the "Capstone" folder and rename "Data" 
 
 
 # Twitter Bot Detection 
